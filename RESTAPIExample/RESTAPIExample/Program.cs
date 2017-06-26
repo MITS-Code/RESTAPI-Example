@@ -42,12 +42,14 @@ namespace RESTAPIExample
             string Authorization = cr.Authorization;
             #endregion
 
+            #region Informational Output
             Console.Out.WriteLine("This is still very BETA");
             Console.Out.WriteLine("Username: " + Username);
             Console.Out.WriteLine("Password: " + Password);
             Console.Out.WriteLine("orgId: " + orgId);
             Console.Out.WriteLine("Authorization: " + Authorization);
             Console.ReadKey();
+            #endregion
 
             //Using RESTSharp NuGet Package
             var client = new RestClient("https://desk.zoho.com");
@@ -63,6 +65,7 @@ namespace RESTAPIExample
                     char ch = Convert.ToChar(input);
                     switch (ch)
                     {
+                        #region getAuthToken (Case 1)
                         case '1'://Completed
                             //Should only need to happen once.
                             Console.Clear();
@@ -81,7 +84,9 @@ namespace RESTAPIExample
                             Console.Out.Write(response.Content + "\nFinished");
                             Console.ReadKey();
                             break;
+                        #endregion
 
+                        #region getOrgId (Case 2)
                         case '2'://Completed
                             Console.Clear();
                             Console.Out.WriteLine("Getting orgId's");
@@ -99,11 +104,13 @@ namespace RESTAPIExample
                                     Console.Out.WriteLine("logoURL: " + o.logoURL);
                                     Console.Out.WriteLine("organizationName: " + o.organizationName);
                                     Console.Out.WriteLine("portalURL: " + o.portalURL);
-                                } 
+                                }
                             });
                             Console.ReadKey();
                             break;
+                        #endregion
 
+                        #region getTickets (Case 3)
                         case '3':
                             Console.Clear();
                             Console.Out.WriteLine("Getting");
@@ -133,7 +140,9 @@ namespace RESTAPIExample
                             });
                             Console.ReadKey();
                             break;
+                        #endregion
 
+                        #region postTicket (Case 4)
                         case '4': //Not Even close to completion
                             Console.Clear();
                             Console.Out.WriteLine("Posting");
@@ -144,12 +153,15 @@ namespace RESTAPIExample
 
                             Console.ReadKey();
                             break;
+                        #endregion
 
+                        #region exit (case x/X)
                         case 'X': //Fallthrough logic
                         case 'x':
                             Console.Out.WriteLine("Exiting");
                             Environment.Exit(0);
                             break;
+                            #endregion
                     }
                 }
                 catch (Exception e)
