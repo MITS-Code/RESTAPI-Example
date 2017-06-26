@@ -1,5 +1,5 @@
 # REST API Example
-This repository contains a C# Visual Studio Console Project implementation of some parts of the Zoho Desk Rest API Interface.
+This repository contains a C# Visual Studio Console Project implementation of some parts of the Zoho Desk REST API Interface.
 
 It uses:
 - Linq
@@ -8,7 +8,6 @@ It uses:
 - **private.config file for obfuscating private login credentials**
 
 ## How to use
----------------
 **This solution is not straight forward to use. For the .exe to run correctly.** 
 1. you will need to have:
     1. RESTAPIExample.exe
@@ -35,7 +34,6 @@ An example is provided in the root of the project, with the .csproj and .cs file
     ```
 
 ## Additional Tools
---------------
 1. Postman - https://www.getpostman.com/ - Useful for testing and developing REST API Calls and Returns
 1. JSON to C# - http://json2csharp.com/ - Useful for turning the returned JSON into C# objects. Does what it says on the tin.
 1. Visual Studio 2017 - Paste Special -> Paste as JSON Objects - Same as above
