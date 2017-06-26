@@ -8,7 +8,10 @@ using System.Collections.Specialized;
 using System.ComponentModel.Design;
 using System.Diagnostics;
 using RestSharp;
+using System.Web;
 using RestSharp.Authenticators;
+using RestSharp.Deserializers;
+using RestSharp.Extensions;
 
 namespace RESTAPIExample
 {
@@ -42,6 +45,8 @@ namespace RESTAPIExample
             Console.Out.WriteLine("This is still very BETA");
             Console.Out.WriteLine("Username: " + Username);
             Console.Out.WriteLine("Password: " + Password);
+            Console.Out.WriteLine("orgId: " + orgId);
+            Console.Out.WriteLine("Authorization: " + Authorization);
             Console.ReadKey();
 
             //Using RESTSharp NuGet Package
@@ -59,6 +64,7 @@ namespace RESTAPIExample
                     switch (ch)
                     {
                         case '1': //Should only need to happen once.
+                            Console.Clear();
                             Console.Out.WriteLine("Authenticating");
                             //client.Authenticator = new HttpBasicAuthenticator(Username, Password);Not needed for this API due to manual authentication and authToken retrieval
                             var getAuthToken = new RestClient("https://accounts.zoho.com");//Client is the main API hosting site (essentially)
@@ -76,17 +82,29 @@ namespace RESTAPIExample
                             break;
 
                         case '2':
+                            Console.Clear();
                             Console.Out.WriteLine("Getting orgId's");
 
                             var orgRequest = new RestRequest("/api/v1/organizations", Method.GET);
+                            orgRequest.RequestFormat = DataFormat.Xml;
                             orgRequest.AddHeader("Authorization", Authorization);
-                            var orgResponse= client.Execute(orgRequest);
-
-                            Console.Out.Write(orgResponse.Content + "\nFinished");
+                            var asyncHandle = client.ExecuteAsync<organizationList>(orgRequest, orgresponse =>
+                            {
+                                //Console.Out.WriteLine(orgresponse.Content + "\n***Finished***"); //Raw Output
+                                foreach (organization o in orgresponse.Data.data)
+                                {
+                                    Console.Out.WriteLine("ID: " + o.id);
+                                    Console.Out.WriteLine("isDefault: " + o.isDefault);
+                                    Console.Out.WriteLine("logoURL: " + o.logoURL);
+                                    Console.Out.WriteLine("organizationName: " + o.organizationName);
+                                    Console.Out.WriteLine("portalURL: " + o.portalURL);
+                                } 
+                            });
                             Console.ReadKey();
                             break;
 
                         case '3':
+                            Console.Clear();
                             Console.Out.WriteLine("Getting");
 
                             var getterRequest = new RestRequest("/api/v1/tickets", Method.GET);
@@ -99,6 +117,7 @@ namespace RESTAPIExample
                             break;
 
                         case '4':
+                            Console.Clear();
                             Console.Out.WriteLine("Posting");
 
                             var posterRequest = new RestRequest("tickets", Method.POST);
