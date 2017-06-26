@@ -34,6 +34,8 @@ namespace RESTAPIExample
 
             string Username = cr.username;
             string Password = cr.password;
+            string orgId = cr.orgId;
+            string Authorization = cr.Authorization;
             #endregion
 
             Console.Out.WriteLine("This is still very BETA");
@@ -42,7 +44,7 @@ namespace RESTAPIExample
             Console.ReadKey();
 
             //Using RESTSharp NuGet Package
-            var client = new RestClient("https://desk.zoho.com/api/v1");
+            var client = new RestClient("https://desk.zoho.com");
            
             #region Main Loop
 
@@ -68,17 +70,19 @@ namespace RESTAPIExample
                             #endregion //Parameters are what we're trying to achieve with our application
                             var response = getAuthToken.Execute(getToken);//Execution
 
-                            Console.Out.Write(response.Content + "Finished");
+                            Console.Out.Write(response.Content + "\nFinished");
                             Console.ReadKey();
                             break;
 
                         case '2':
                             Console.Out.WriteLine("Getting");
 
-                            var getterRequest = new RestRequest("organizations", Method.GET);
-                            getterRequest.AddHeader("header", "value");
-                            getterRequest.AddParameter("name", "value", ParameterType.RequestBody);
+                            var getterRequest = new RestRequest("/api/v1/tickets", Method.GET);
+                            getterRequest.AddHeader("orgId", orgId);
+                            getterRequest.AddHeader("Authorization", Authorization);
+                            var getterResponse = client.Execute(getterRequest);
 
+                            Console.Out.Write(getterResponse.Content + "\nFinished");
                             Console.ReadKey();
                             break;
 
