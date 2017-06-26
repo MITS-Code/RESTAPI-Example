@@ -1,17 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Configuration;
-using System.Collections.Specialized;
-using System.ComponentModel.Design;
-using System.Diagnostics;
 using RestSharp;
-using System.Web;
-using RestSharp.Authenticators;
-using RestSharp.Deserializers;
-using RestSharp.Extensions;
 
 namespace RESTAPIExample
 {
@@ -25,10 +13,10 @@ namespace RESTAPIExample
         public static void displayMenu()
         {
             Console.Clear();
-            Console.Out.WriteLine("1. Authorization");
+            Console.Out.WriteLine("1. Authorization (Disabled)");
             Console.Out.WriteLine("2. OrgId");
-            Console.Out.WriteLine("3. Get");
-            Console.Out.WriteLine("4. Post");
+            Console.Out.WriteLine("3. Get Tickets");
+            Console.Out.WriteLine("4. Post Tickets (Not Implemented)");
             Console.Out.WriteLine("X. Exit");
         } 
         static void Main(string[] args)
@@ -43,11 +31,12 @@ namespace RESTAPIExample
             #endregion
 
             #region Informational Output
-            Console.Out.WriteLine("This is still very BETA");
-            Console.Out.WriteLine("Username: " + Username);
-            Console.Out.WriteLine("Password: " + Password);
-            Console.Out.WriteLine("orgId: " + orgId);
-            Console.Out.WriteLine("Authorization: " + Authorization);
+            Console.Out.WriteLine("             This is still very BETA");
+            Console.Out.WriteLine(" Username: " + Username);
+            Console.Out.WriteLine(" Password: " + Password);
+            Console.Out.WriteLine(" orgId: " + orgId);
+            Console.Out.WriteLine(" Authorization: " + Authorization);
+            Console.Out.WriteLine("\n   Press any key to continue");
             Console.ReadKey();
             #endregion
 
@@ -67,6 +56,10 @@ namespace RESTAPIExample
                     {
                         #region getAuthToken (Case 1)
                         case '1'://Completed
+                            Console.Out.WriteLine("   I said it was disabled");
+                            Console.Out.WriteLine("\n   Press any key to continue");
+                            Console.ReadKey();
+                            break;
                             //Should only need to happen once.
                             Console.Clear();
                             Console.Out.WriteLine("Authenticating");
@@ -82,6 +75,7 @@ namespace RESTAPIExample
                             var response = getAuthToken.Execute(getToken);//Execution
 
                             Console.Out.Write(response.Content + "\nFinished");
+                            Console.Out.WriteLine("\n   Press any key to continue");
                             Console.ReadKey();
                             break;
                         #endregion
@@ -89,7 +83,7 @@ namespace RESTAPIExample
                         #region getOrgId (Case 2)
                         case '2'://Completed
                             Console.Clear();
-                            Console.Out.WriteLine("Getting orgId's");
+                            Console.Out.WriteLine("Getting orgId's\n");
 
                             var orgRequest = new RestRequest("/api/v1/organizations", Method.GET);
                             orgRequest.RequestFormat = DataFormat.Xml;
@@ -99,12 +93,14 @@ namespace RESTAPIExample
                                 //Console.Out.WriteLine(orgresponse.Content + "\n***Finished***\n"); //Raw Output
                                 foreach (organization o in orgresponse.Data.data)
                                 {
-                                    Console.Out.WriteLine("ID: " + o.id);
-                                    Console.Out.WriteLine("isDefault: " + o.isDefault);
-                                    Console.Out.WriteLine("logoURL: " + o.logoURL);
-                                    Console.Out.WriteLine("organizationName: " + o.organizationName);
-                                    Console.Out.WriteLine("portalURL: " + o.portalURL);
+                                    Console.Out.WriteLine(" ID: " + o.id);
+                                    Console.Out.WriteLine(" isDefault: " + o.isDefault);
+                                    Console.Out.WriteLine(" logoURL: " + o.logoURL);
+                                    Console.Out.WriteLine(" organizationName: " + o.organizationName);
+                                    Console.Out.WriteLine(" portalURL: " + o.portalURL);
+                                    Console.Out.WriteLine(" ---------------\n");
                                 }
+                                Console.Out.WriteLine("\n   Press any key to continue");
                             });
                             Console.ReadKey();
                             break;
@@ -113,7 +109,7 @@ namespace RESTAPIExample
                         #region getTickets (Case 3)
                         case '3':
                             Console.Clear();
-                            Console.Out.WriteLine("Getting");
+                            Console.Out.WriteLine("Getting Tickets\n");
 
                             var getterRequest = new RestRequest("/api/v1/tickets", Method.GET);
                             getterRequest.AddHeader("orgId", orgId);
@@ -123,20 +119,22 @@ namespace RESTAPIExample
                                 //Console.Out.WriteLine(getterResponse.Content + "\n***Finished***\n"); //Raw Output
                                 foreach (Ticket o in getterResponse.Data.data)
                                 {
-                                    Console.Out.WriteLine("ID: " + o.id);
-                                    Console.Out.WriteLine("Assignee ID: " + o.assigneeId);
-                                    Console.Out.WriteLine("Assignee Email: " + o.email);
-                                    Console.Out.WriteLine("Subject: " + o.subject);
+                                    Console.Out.WriteLine(" ID: " + o.id);
+                                    Console.Out.WriteLine(" Assignee ID: " + o.assigneeId);
+                                    Console.Out.WriteLine(" Assignee Email: " + o.email);
+                                    Console.Out.WriteLine(" Subject: " + o.subject);
                                     if (o.contact != null)
                                     {
-                                        Console.Out.WriteLine("Contact Email: " + o.contact.email);
-                                        Console.Out.WriteLine("Contact FirstName: " + o.contact.firstName);
-                                        Console.Out.WriteLine("Contact LastName: " + o.contact.lastName);
-                                        Console.Out.WriteLine("Contact Phone: " + o.contact.phone);
+                                        Console.Out.WriteLine(" Contact Email: " + o.contact.email);
+                                        Console.Out.WriteLine(" Contact FirstName: " + o.contact.firstName);
+                                        Console.Out.WriteLine(" Contact LastName: " + o.contact.lastName);
+                                        Console.Out.WriteLine(" Contact Phone: " + o.contact.phone);
                                     }
-                                    Console.Out.WriteLine("Due Date: " + o.dueDate);
-                                    Console.Out.WriteLine("Status: " + o.status);
+                                    Console.Out.WriteLine(" Due Date: " + o.dueDate);
+                                    Console.Out.WriteLine(" Status: " + o.status);
+                                    Console.Out.WriteLine(" ---------------\n");
                                 }
+                                Console.Out.WriteLine("\n   Press any key to continue");
                             });
                             Console.ReadKey();
                             break;
@@ -144,6 +142,10 @@ namespace RESTAPIExample
 
                         #region postTicket (Case 4)
                         case '4': //Not Even close to completion
+                            Console.Out.WriteLine("   Under construction!!!");
+                            Console.Out.WriteLine("\n   Press any key to continue");
+                            Console.ReadKey();
+                            break;
                             Console.Clear();
                             Console.Out.WriteLine("Posting");
 
@@ -151,6 +153,7 @@ namespace RESTAPIExample
                             posterRequest.AddHeader("header", "value");
                             posterRequest.AddParameter("name", "value", ParameterType.RequestBody);
 
+                            Console.Out.WriteLine("\n   Press any key to continue");
                             Console.ReadKey();
                             break;
                         #endregion
@@ -168,6 +171,7 @@ namespace RESTAPIExample
                 {
                     Console.Clear();
                     Console.Error.WriteLine(e);
+                    Console.Out.WriteLine("\n   Press any key to continue");
                     Console.ReadKey();
                 }
             }
