@@ -22,7 +22,8 @@ namespace RESTAPIExample
         public static void displayMenu()
         {
             Console.Clear();
-            Console.Out.WriteLine("1. Authenticate");
+            Console.Out.WriteLine("1. Authorization");
+            Console.Out.WriteLine("2. OrgId");
             Console.Out.WriteLine("2. Get");
             Console.Out.WriteLine("3. Post");
             Console.Out.WriteLine("X. Exit");
@@ -75,6 +76,17 @@ namespace RESTAPIExample
                             break;
 
                         case '2':
+                            Console.Out.WriteLine("Getting orgId's");
+
+                            var orgRequest = new RestRequest("/api/v1/organizations", Method.GET);
+                            orgRequest.AddHeader("Authorization", Authorization);
+                            var orgResponse= client.Execute(orgRequest);
+
+                            Console.Out.Write(orgResponse.Content + "\nFinished");
+                            Console.ReadKey();
+                            break;
+
+                        case '3':
                             Console.Out.WriteLine("Getting");
 
                             var getterRequest = new RestRequest("/api/v1/tickets", Method.GET);
@@ -86,7 +98,7 @@ namespace RESTAPIExample
                             Console.ReadKey();
                             break;
 
-                        case '3':
+                        case '4':
                             Console.Out.WriteLine("Posting");
 
                             var posterRequest = new RestRequest("tickets", Method.POST);
