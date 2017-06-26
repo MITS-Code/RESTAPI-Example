@@ -27,8 +27,8 @@ namespace RESTAPIExample
             Console.Clear();
             Console.Out.WriteLine("1. Authorization");
             Console.Out.WriteLine("2. OrgId");
-            Console.Out.WriteLine("2. Get");
-            Console.Out.WriteLine("3. Post");
+            Console.Out.WriteLine("3. Get");
+            Console.Out.WriteLine("4. Post");
             Console.Out.WriteLine("X. Exit");
         } 
         static void Main(string[] args)
@@ -63,7 +63,8 @@ namespace RESTAPIExample
                     char ch = Convert.ToChar(input);
                     switch (ch)
                     {
-                        case '1': //Should only need to happen once.
+                        case '1'://Completed
+                            //Should only need to happen once.
                             Console.Clear();
                             Console.Out.WriteLine("Authenticating");
                             //client.Authenticator = new HttpBasicAuthenticator(Username, Password);Not needed for this API due to manual authentication and authToken retrieval
@@ -81,7 +82,7 @@ namespace RESTAPIExample
                             Console.ReadKey();
                             break;
 
-                        case '2':
+                        case '2'://Completed
                             Console.Clear();
                             Console.Out.WriteLine("Getting orgId's");
 
@@ -90,7 +91,7 @@ namespace RESTAPIExample
                             orgRequest.AddHeader("Authorization", Authorization);
                             var asyncHandle = client.ExecuteAsync<organizationList>(orgRequest, orgresponse =>
                             {
-                                //Console.Out.WriteLine(orgresponse.Content + "\n***Finished***"); //Raw Output
+                                //Console.Out.WriteLine(orgresponse.Content + "\n***Finished***\n"); //Raw Output
                                 foreach (organization o in orgresponse.Data.data)
                                 {
                                     Console.Out.WriteLine("ID: " + o.id);
@@ -110,13 +111,30 @@ namespace RESTAPIExample
                             var getterRequest = new RestRequest("/api/v1/tickets", Method.GET);
                             getterRequest.AddHeader("orgId", orgId);
                             getterRequest.AddHeader("Authorization", Authorization);
-                            var getterResponse = client.Execute(getterRequest);
-
-                            Console.Out.Write(getterResponse.Content + "\nFinished");
+                            var asyncHandle2 = client.ExecuteAsync<TicketList>(getterRequest, getterResponse =>
+                            {
+                                //Console.Out.WriteLine(getterResponse.Content + "\n***Finished***\n"); //Raw Output
+                                foreach (Ticket o in getterResponse.Data.data)
+                                {
+                                    Console.Out.WriteLine("ID: " + o.id);
+                                    Console.Out.WriteLine("Assignee ID: " + o.assigneeId);
+                                    Console.Out.WriteLine("Assignee Email: " + o.email);
+                                    Console.Out.WriteLine("Subject: " + o.subject);
+                                    if (o.contact != null)
+                                    {
+                                        Console.Out.WriteLine("Contact Email: " + o.contact.email);
+                                        Console.Out.WriteLine("Contact FirstName: " + o.contact.firstName);
+                                        Console.Out.WriteLine("Contact LastName: " + o.contact.lastName);
+                                        Console.Out.WriteLine("Contact Phone: " + o.contact.phone);
+                                    }
+                                    Console.Out.WriteLine("Due Date: " + o.dueDate);
+                                    Console.Out.WriteLine("Status: " + o.status);
+                                }
+                            });
                             Console.ReadKey();
                             break;
 
-                        case '4':
+                        case '4': //Not Even close to completion
                             Console.Clear();
                             Console.Out.WriteLine("Posting");
 

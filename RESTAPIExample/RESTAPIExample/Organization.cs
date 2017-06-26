@@ -1,4 +1,5 @@
-﻿using System;
+﻿//Generated Using http://json2csharp.com/
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
