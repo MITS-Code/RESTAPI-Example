@@ -31,7 +31,7 @@ namespace RESTAPIExample
             #endregion
 
             #region Informational Output
-            Console.Out.WriteLine("             This is still very BETA");
+            Console.Out.WriteLine(" This is still very BETA");
             Console.Out.WriteLine(" Username: " + Username);
             Console.Out.WriteLine(" Password: " + Password);
             Console.Out.WriteLine(" orgId: " + orgId);
