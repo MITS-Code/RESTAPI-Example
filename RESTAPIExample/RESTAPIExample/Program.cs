@@ -58,10 +58,6 @@ namespace RESTAPIExample
                     {
                         #region getAuthToken (Case 1)
                         case '1'://Completed
-                            Console.Out.WriteLine("   I said it was disabled");
-                            Console.Out.WriteLine("\n   Press any key to continue");
-                            Console.ReadKey();
-                            break;
                             //Should only need to happen once.
                             Console.Clear();
                             Console.Out.WriteLine("Authenticating");
@@ -135,14 +131,6 @@ namespace RESTAPIExample
                             break;
                         #endregion
 
-<<<<<<< Updated upstream
-                        #region postTicket (Case 4)
-                        case '4': //Not Even close to completion
-                            Console.Out.WriteLine("   Under construction!!!");
-                            Console.Out.WriteLine("\n   Press any key to continue");
-                            Console.ReadKey();
-                            break;
-=======
                         #region create account (Case 4)
                         case '4':
                             var accountRequest = new RestRequest("/api/v1/accounts", Method.POST);
@@ -195,7 +183,6 @@ namespace RESTAPIExample
 
                         #region postTicket (Case 6)
                         case '6': //Completed
->>>>>>> Stashed changes
                             Console.Clear();
                             Console.Out.WriteLine("Posting");
 
