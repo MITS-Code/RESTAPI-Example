@@ -56,10 +56,10 @@ namespace RESTAPIExample
                     {
                         #region getAuthToken (Case 1)
                         case '1'://Completed
-                            Console.Out.WriteLine("   I said it was disabled");
-                            Console.Out.WriteLine("\n   Press any key to continue");
-                            Console.ReadKey();
-                            break;
+                            //Console.Out.WriteLine("   I said it was disabled");
+                            //Console.Out.WriteLine("\n   Press any key to continue");
+                            //Console.ReadKey();
+                            //break; //Commented to unlock
                             //Should only need to happen once.
                             Console.Clear();
                             Console.Out.WriteLine("Authenticating");
@@ -142,10 +142,10 @@ namespace RESTAPIExample
 
                         #region postTicket (Case 4)
                         case '4': //Not Even close to completion
-                            Console.Out.WriteLine("   Under construction!!!");
-                            Console.Out.WriteLine("\n   Press any key to continue");
-                            Console.ReadKey();
-                            break;
+                            //Console.Out.WriteLine("   Under construction!!!");
+                            //Console.Out.WriteLine("\n   Press any key to continue");
+                            //Console.ReadKey();
+                            //break;
                             Console.Clear();
                             Console.Out.WriteLine("Posting");
 
