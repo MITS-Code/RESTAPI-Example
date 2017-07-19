@@ -13,10 +13,12 @@ namespace RESTAPIExample
         public static void displayMenu()
         {
             Console.Clear();
-            Console.Out.WriteLine("1. Authorization (Disabled)");
+            Console.Out.WriteLine("1. Authorization");
             Console.Out.WriteLine("2. OrgId");
             Console.Out.WriteLine("3. Get Tickets");
-            Console.Out.WriteLine("4. Post Tickets (Not Implemented)");
+            Console.Out.WriteLine("4. Create Account");
+            Console.Out.WriteLine("5. Create Contact");
+            Console.Out.WriteLine("6. Post Tickets");
             Console.Out.WriteLine("X. Exit");
         } 
         static void Main(string[] args)
@@ -123,13 +125,6 @@ namespace RESTAPIExample
                                     Console.Out.WriteLine(" Assignee ID: " + o.assigneeId);
                                     Console.Out.WriteLine(" Assignee Email: " + o.email);
                                     Console.Out.WriteLine(" Subject: " + o.subject);
-                                    if (o.contact != null)
-                                    {
-                                        Console.Out.WriteLine(" Contact Email: " + o.contact.email);
-                                        Console.Out.WriteLine(" Contact FirstName: " + o.contact.firstName);
-                                        Console.Out.WriteLine(" Contact LastName: " + o.contact.lastName);
-                                        Console.Out.WriteLine(" Contact Phone: " + o.contact.phone);
-                                    }
                                     Console.Out.WriteLine(" Due Date: " + o.dueDate);
                                     Console.Out.WriteLine(" Status: " + o.status);
                                     Console.Out.WriteLine(" ---------------\n");
@@ -140,18 +135,99 @@ namespace RESTAPIExample
                             break;
                         #endregion
 
+<<<<<<< Updated upstream
                         #region postTicket (Case 4)
                         case '4': //Not Even close to completion
                             Console.Out.WriteLine("   Under construction!!!");
                             Console.Out.WriteLine("\n   Press any key to continue");
                             Console.ReadKey();
                             break;
+=======
+                        #region create account (Case 4)
+                        case '4':
+                            var accountRequest = new RestRequest("/api/v1/accounts", Method.POST);
+                            accountRequest.AddHeader("orgId", orgId);
+                            accountRequest.AddHeader("Authorization", Authorization);
+                            Account account = new Account();
+                            account.accountName = "Account Name";
+                            accountRequest.AddJsonBody(account);
+                            var asyncHandle3 = client.ExecuteAsync<Account>(accountRequest, accountResponse =>
+                            {
+                                Account o = accountResponse.Data;
+                                Console.Out.WriteLine(" ID: " + o.id);
+                                Console.Out.WriteLine(" ID: " + o.accountName);
+                                Console.Out.WriteLine(" ---------------\n");
+                                Console.Out.WriteLine(accountResponse.ErrorMessage);
+                                Console.Out.WriteLine(accountResponse.Content);
+                                Console.Out.WriteLine(accountResponse.ResponseStatus);
+                                Console.Out.WriteLine(accountResponse.StatusCode);
+                            });
+                            
+                            Console.Out.WriteLine("\n   Press any key to continue");
+                            Console.ReadKey();
+                            break;
+                        #endregion
+
+                        #region create contact (Case 5)
+                        case '5':
+                            Console.Clear();
+                            Console.Out.WriteLine("Create Contact");
+
+                            var contactRequest = new RestRequest("/api/v1/contacts", Method.POST);
+                            contactRequest.AddHeader("orgId", orgId);
+                            contactRequest.AddHeader("Authorization", Authorization);
+
+                            Contact contact = new Contact();
+                            contact.firstName = "Name";
+                            contact.lastName = "Surname";
+                            contact.accountId = "197572000000100097";
+                            contactRequest.AddJsonBody(contact);
+
+                            var handler2 = client.Execute<Contact>(contactRequest);
+                            Console.Out.WriteLine(handler2.ErrorMessage);
+                            Console.Out.WriteLine(handler2.Content);
+                            Console.Out.WriteLine(handler2.ResponseStatus);
+                            Console.Out.WriteLine(handler2.StatusCode);
+                            Console.Out.WriteLine("\n   Press any key to continue");
+                            Console.ReadKey();
+                            break;
+                        #endregion
+
+                        #region postTicket (Case 6)
+                        case '6': //Completed
+>>>>>>> Stashed changes
                             Console.Clear();
                             Console.Out.WriteLine("Posting");
 
-                            var posterRequest = new RestRequest("tickets", Method.POST);
-                            posterRequest.AddHeader("header", "value");
-                            posterRequest.AddParameter("name", "value", ParameterType.RequestBody);
+                            var postRequest = new RestRequest("/api/v1/tickets", Method.POST);
+                            postRequest.RequestFormat = DataFormat.Json;
+
+                            postRequest.AddHeader("orgId", orgId);
+                            postRequest.AddHeader("Authorization", Authorization);
+                            
+                            Ticket toSend = new Ticket();
+
+                            toSend.productId = "";
+                            toSend.contactId = "197572000000106045"; // Need to create an account, to create a contact, to create a ticket associated with that contact.
+                            toSend.subject = "This is a ticket :" + DateTime.Now;
+                            toSend.dueDate = "2017-07-20T16:16:16.000Z";
+                            toSend.departmentId = "197572000000006907";
+                            toSend.channel = "Webapp";
+                            toSend.description = "This is a ticket created through console app";
+                            toSend.priority = "High";
+                            toSend.classification = "Classification";
+                            toSend.assigneeId = "197572000000073005";
+                            toSend.phone = "072 760 7234";
+                            toSend.category = "Category";
+                            toSend.email = "email@student.monash.edu";
+                            toSend.status = "Open";
+
+                            postRequest.AddJsonBody(toSend);
+                            var handler = client.Execute<Ticket>(postRequest);
+                            Console.Out.WriteLine(handler.ErrorMessage);
+                            Console.Out.WriteLine(handler.Content);
+                            Console.Out.WriteLine(handler.ResponseStatus);
+                            Console.Out.WriteLine(handler.StatusCode);
 
                             Console.Out.WriteLine("\n   Press any key to continue");
                             Console.ReadKey();
