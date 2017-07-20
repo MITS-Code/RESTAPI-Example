@@ -133,25 +133,24 @@ namespace RESTAPIExample
 
                         #region create account (Case 4)
                         case '4':
+                            Console.Clear();
+                            Console.Out.WriteLine("Creating Account...");
                             var accountRequest = new RestRequest("/api/v1/accounts", Method.POST);
                             accountRequest.AddHeader("orgId", orgId);
                             accountRequest.AddHeader("Authorization", Authorization);
                             Account account = new Account();
                             account.accountName = "Account Name";
                             accountRequest.AddJsonBody(account);
-                            var asyncHandle3 = client.ExecuteAsync<Account>(accountRequest, accountResponse =>
-                            {
-                                Account o = accountResponse.Data;
-                                Console.Out.WriteLine(" ID: " + o.id);
-                                Console.Out.WriteLine(" ID: " + o.accountName);
-                                Console.Out.WriteLine(" ---------------\n");
-                                Console.Out.WriteLine(accountResponse.ErrorMessage);
-                                Console.Out.WriteLine(accountResponse.Content);
-                                Console.Out.WriteLine(accountResponse.ResponseStatus);
-                                Console.Out.WriteLine(accountResponse.StatusCode);
-                            });
+                            var accountResponse = client.Execute<Account>(accountRequest);
+                            account = accountResponse.Data;
                             
-                            Console.Out.WriteLine("\n   Press any key to continue");
+                            Console.Out.WriteLine("ID: " + account.id);
+                            Console.Out.WriteLine("AccountName: " + account.accountName);
+                            Console.Out.WriteLine("---------------");
+                            //Console.Out.WriteLine(accountResponse.Content);
+                            Console.Out.WriteLine("REST Response: " + accountResponse.ResponseStatus);
+                            Console.Out.WriteLine("HTTP Response: " + accountResponse.StatusCode);
+                            Console.Out.WriteLine("\nPress any key to continue");
                             Console.ReadKey();
                             break;
                         #endregion
@@ -159,7 +158,7 @@ namespace RESTAPIExample
                         #region create contact (Case 5)
                         case '5':
                             Console.Clear();
-                            Console.Out.WriteLine("Create Contact");
+                            Console.Out.WriteLine("Creating Contact...");
 
                             var contactRequest = new RestRequest("/api/v1/contacts", Method.POST);
                             contactRequest.AddHeader("orgId", orgId);
@@ -171,20 +170,26 @@ namespace RESTAPIExample
                             contact.accountId = "197572000000100097";
                             contactRequest.AddJsonBody(contact);
 
-                            var handler2 = client.Execute<Contact>(contactRequest);
-                            Console.Out.WriteLine(handler2.ErrorMessage);
-                            Console.Out.WriteLine(handler2.Content);
-                            Console.Out.WriteLine(handler2.ResponseStatus);
-                            Console.Out.WriteLine(handler2.StatusCode);
-                            Console.Out.WriteLine("\n   Press any key to continue");
+                            var contactResponse = client.Execute<Contact>(contactRequest);
+                            Contact obj = contactResponse.Data;
+                            Console.Out.WriteLine("ID: " + obj.id);
+                            Console.Out.WriteLine("First Name: " + obj.firstName);
+                            Console.Out.WriteLine("Last Name: " + obj.lastName);
+                            Console.Out.WriteLine("Account ID: " + obj.accountId);
+                            Console.Out.WriteLine("---------------");
+                            //Console.Out.WriteLine(contactResponse.Content);
+                            Console.Out.WriteLine("REST Response: " + contactResponse.ResponseStatus);
+                            Console.Out.WriteLine("HTTP Response: " + contactResponse.StatusCode);
+                            Console.Out.WriteLine("\nPress any key to continue");
                             Console.ReadKey();
+
                             break;
                         #endregion
 
                         #region postTicket (Case 6)
                         case '6': //Completed
                             Console.Clear();
-                            Console.Out.WriteLine("Posting");
+                            Console.Out.WriteLine("Posting ticket...");
 
                             var postRequest = new RestRequest("/api/v1/tickets", Method.POST);
                             postRequest.RequestFormat = DataFormat.Json;
@@ -210,11 +215,22 @@ namespace RESTAPIExample
                             toSend.status = "Open";
 
                             postRequest.AddJsonBody(toSend);
-                            var handler = client.Execute<Ticket>(postRequest);
-                            Console.Out.WriteLine(handler.ErrorMessage);
-                            Console.Out.WriteLine(handler.Content);
-                            Console.Out.WriteLine(handler.ResponseStatus);
-                            Console.Out.WriteLine(handler.StatusCode);
+                            var postResponse = client.Execute<Ticket>(postRequest);
+                            Ticket t = postResponse.Data;
+
+                            Console.Out.WriteLine("ID: " + t.id);
+                            Console.Out.WriteLine("Contact ID: " + t.contactId);
+                            Console.Out.WriteLine("Ticket Number: " + t.ticketNumber);
+                            Console.Out.WriteLine("Subject: " + t.subject);
+                            Console.Out.WriteLine("Description: " + t.description);
+                            Console.Out.WriteLine("Email: " + t.email);
+                            Console.Out.WriteLine("Priority: " + t.priority);
+                            Console.Out.WriteLine("Channel: " + t.channel);
+                            Console.Out.WriteLine("Status: " + t.status);
+
+                            //Console.Out.WriteLine(postResponse.Content);
+                            Console.Out.WriteLine("REST Response: " + postResponse.ResponseStatus);
+                            Console.Out.WriteLine("HTTP Response: " + postResponse.StatusCode);
 
                             Console.Out.WriteLine("\n   Press any key to continue");
                             Console.ReadKey();
